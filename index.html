@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DompetKu — Aplikasi Pengatur Keuangan Mahasiswa</title>
+    <!-- Plus Jakarta Sans Font for high-end Fintech UI vibe -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Link to the compiled style.css file -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Tailwind CSS Play CDN for layouts, grid, flex, and spacing utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    <!-- ApexCharts CDN for stunning interaction and animations -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .font-mono-custom {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Custom Smooth animations */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      /* Hide scrollbar for clean design */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="bg-neutral-950 text-neutral-100 transition-colors duration-300 min-h-screen flex flex-col no-scrollbar">
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow flex flex-col">
+      
+      <!-- ================= LOGIN SCREEN ================= -->
+      <section id="login-section" class="flex-grow flex items-center justify-center p-4 sm:p-8">
+        <div class="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-neutral-700/50 light:bg-white light:border-neutral-200 light:shadow-xl dark:bg-neutral-900 dark:border-neutral-800">
+          <!-- Background glow for dark mode -->
+          <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Logo -->
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-2xl shadow-lg shadow-emerald-500/5">
+              <span>D</span>
+            </div>
+            <div>
+              <h1 class="text-2xl font-extrabold tracking-tight text-white light:text-neutral-900 flex items-center gap-1.5">
+                Dompet<span class="text-emerald-400">Ku</span>
+              </h1>
+              <span class="text-xs text-neutral-400 font-medium">Fintech Pengatur Bulanan Mahasiswa</span>
+            </div>
+          </div>
+
+          <!-- Welcoming Text -->
+          <div class="mb-6">
+            <h2 class="text-xl font-bold text-neutral-100 light:text-neutral-800">Selamat datang, Sobat Hemat!</h2>
+            <p class="text-sm text-neutral-400 mt-1">Ayo mulai atur keuangan bulananmu biar nggak kantong kering di akhir bulan.</p>
+          </div>
+
+          <!-- Form Login -->
+          <form id="login-form" class="space-y-4">
+            <div>
+              <label for="login-username" class="block text-xs font-semibold text-neutral-400 mb-1.5 uppercase tracking-wider">Nama Lengkap / Panggilan</label>
+              <input type="text" id="login-username" required placeholder="Contoh: Rizky Mahesa" 
+                class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl py-3 px-4 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 light:placeholder-neutral-400">
+            </div>
+
+            <button type="submit" id="btn-submit-login" class="w-full bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-neutral-950 font-bold py-3.5 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10 cursor-pointer">
+              <span>Masuk Ke Dashboard</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </form>
+
+          <!-- Divider -->
+          <div class="relative my-6 flex items-center justify-center">
+            <span class="absolute px-3 bg-neutral-900 light:bg-white text-xs text-neutral-500 font-medium">ATAU</span>
+            <div class="w-full border-t border-neutral-800 light:border-neutral-200"></div>
+          </div>
+
+          <!-- Demo Button (Preset Data) -->
+          <button id="demo-btn" class="w-full bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-emerald-400 font-semibold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>Demo Instan (Dengan Data Simulasi)</span>
+          </button>
+
+          <!-- Footer Credit -->
+          <p class="text-center text-[10px] text-neutral-500 mt-6 font-medium">DompetKu v1.0 — Seminar Vibe Coding Demo</p>
+        </div>
+      </section>
+
+      <!-- ================= MAIN APP INTEGRATION SCREEN ================= -->
+      <section id="app-section" class="hidden flex-grow flex flex-col">
+        
+        <!-- HEADER APPS -->
+        <header class="border-b border-neutral-800 light:border-neutral-200 bg-neutral-950/80 light:bg-white/80 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-4 transition-all">
+          <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Logo & User Info -->
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-400 text-neutral-950 flex items-center justify-center font-extrabold text-xl shadow-lg shadow-emerald-500/20">
+                <span>D</span>
+              </div>
+              <div>
+                <h1 class="text-lg font-extrabold tracking-tight text-white light:text-neutral-900">
+                  Dompet<span class="text-emerald-400">Ku</span>
+                </h1>
+                <p id="user-display-greeting" class="text-xs text-neutral-400 font-medium">Halo, Guest!</p>
+              </div>
+            </div>
+
+            <!-- Header Controls & Clock -->
+            <div class="flex items-center gap-3">
+              <!-- Live Clock - Perfect for seminar vibe -->
+              <div class="hidden md:flex items-center gap-2 bg-neutral-900 border border-neutral-800 px-3.5 py-1.5 rounded-full text-xs font-mono-custom text-neutral-400 light:bg-neutral-100 light:border-neutral-200 light:text-neutral-600">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="current-time">00:00:00 WIB</span>
+              </div>
+
+              <!-- Toggle Mode: Dark / Light -->
+              <button id="theme-toggle-btn" class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 transition-all text-neutral-300 light:bg-neutral-100 light:border-neutral-200 light:text-neutral-700 light:hover:bg-neutral-200 cursor-pointer" title="Ubah Tema">
+                <!-- Moon icon (active in dark mode, showing we can change to light mode) -->
+                <svg id="theme-moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                <!-- Sun icon -->
+                <svg id="theme-sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              </button>
+
+              <!-- Log Out -->
+              <button id="logout-btn" class="p-2 sm:px-4 sm:py-2 flex items-center gap-2 rounded-xl border border-neutral-800 text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all text-xs font-semibold cursor-pointer" title="Keluar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span class="hidden sm:inline">Keluar</span>
+              </button>
+            </div>
+
+          </div>
+        </header>
+
+        <!-- DASHBOARD GRID CONTENT -->
+        <div class="max-w-7xl mx-auto w-full p-4 sm:p-8 space-y-6">
+          
+          <!-- BENTO STATS (Total Saldo, Pemasukan, Pengeluaran) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- TOTAL SALDO -->
+            <div id="total-saldo-card" class="bg-neutral-900 border border-neutral-800 p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between group transition-all duration-300 hover:border-emerald-500/25 light:bg-white light:border-neutral-200">
+              <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-semibold text-neutral-400 uppercase tracking-widest light:text-neutral-500">Saldo Dompetku</span>
+                  <span class="p-1.5 bg-emerald-400/10 border border-emerald-400/25 text-emerald-400 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </span>
+                </div>
+                <h3 id="total-saldo" class="text-3xl sm:text-4xl font-extrabold text-white light:text-neutral-900 tracking-tight transition-all">
+                  Rp 0
+                </h3>
+              </div>
+              <div class="mt-6 flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
+                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                <span>Siap dialokasikan untuk kebutuhanmu</span>
+              </div>
+            </div>
+
+            <!-- TOTAL PEMASUKAN -->
+            <div class="bg-neutral-900 border border-neutral-800 p-5 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:border-neutral-700/60 light:bg-white light:border-neutral-200">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-neutral-400 uppercase tracking-widest light:text-neutral-500">Total Pemasukan</span>
+                <span class="p-1.5 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </span>
+              </div>
+              <div>
+                <h3 id="total-pemasukan" class="text-xl sm:text-2xl font-bold text-green-400 tracking-tight">Rp 0</h3>
+                <span class="text-[10px] text-neutral-400">Total akumulasi bulan ini</span>
+              </div>
+            </div>
+
+            <!-- TOTAL PENGELUARAN -->
+            <div class="bg-neutral-900 border border-neutral-800 p-5 rounded-3xl flex flex-col justify-between transition-all duration-300 hover:border-neutral-700/60 light:bg-white light:border-neutral-200">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-neutral-400 uppercase tracking-widest light:text-neutral-500">Total Pengeluaran</span>
+                <span class="p-1.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+                </span>
+              </div>
+              <div>
+                <h3 id="total-pengeluaran" class="text-xl sm:text-2xl font-bold text-rose-400 tracking-tight">Rp 0</h3>
+                <span class="text-[10px] text-neutral-400">Uang terpaksa keluar</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- INTERACTIVE GRID: TAMBAH TRANSAKSI & ANALISIS -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- COLS 4: TAMBAH TRANSAKSI -->
+            <div class="lg:col-span-5 bg-neutral-900 border border-neutral-800 p-6 rounded-3xl h-fit light:bg-white light:border-neutral-200">
+              <div class="flex items-center gap-2 mb-4 pb-2 border-b border-neutral-800/50 light:border-neutral-200">
+                <div class="p-1.5 rounded-lg bg-emerald-400/10 text-emerald-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </div>
+                <h3 class="text-base font-bold text-white light:text-neutral-900">Catat Transaksi</h3>
+              </div>
+
+              <form id="form-transaction" class="space-y-4">
+                
+                <!-- Type Selection (Debit / Kredit) Custom Styled Chips -->
+                <div>
+                  <label class="block text-xs font-semibold text-neutral-400 uppercase mb-2 tracking-wider">Jenis Aliran Dana</label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <!-- Kredit / Pengeluaran button -->
+                    <button type="button" id="tx-type-expense" class="py-2.5 px-4 rounded-xl border border-rose-500/30 text-rose-400 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all bg-rose-500/5 cursor-pointer hover:bg-rose-500/10 ring-2 ring-rose-500/20 active:scale-[0.98]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      Pengeluaran
+                    </button>
+                    <!-- Debit / Pemasukan button -->
+                    <button type="button" id="tx-type-income" class="py-2.5 px-4 rounded-xl border border-neutral-800 text-neutral-400 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer hover:bg-neutral-800/60 active:scale-[0.98]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      Pemasukan
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Nominal Uang -->
+                <div>
+                  <label for="tx-amount" class="block text-xs font-semibold text-neutral-400 mb-1 uppercase tracking-wider">Nominal Nominal Rp</label>
+                  <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-neutral-500">Rp</span>
+                    <input type="text" id="tx-amount" required placeholder="0" 
+                      class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl py-3 pl-11 pr-4 text-sm font-bold text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 light:placeholder-neutral-400">
+                  </div>
+                </div>
+
+                <!-- Kategori -->
+                <div>
+                  <label for="tx-category" class="block text-xs font-semibold text-neutral-400 mb-1 uppercase tracking-wider">Kategori Keperluan</label>
+                  <select id="tx-category" required 
+                    class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl py-3 px-4 text-sm text-neutral-100 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 cursor-pointer">
+                    <option value="Makanan" selected>🍛 Makanan & Minuman</option>
+                    <option value="Transportasi">🚗 Transportasi</option>
+                    <option value="Belanja">🛍️ Belanja</option>
+                    <option value="Hiburan">🍿 Hiburan / Healing</option>
+                    <option value="Pendidikan">🎓 Kuliah & Buku</option>
+                    <option value="Gym">🏋️ Kesehatan & Gym</option>
+                    <option value="Lainnya">🏷️ Kebutuhan Lainnya</option>
+                  </select>
+                </div>
+
+                <!-- Input Grid for Tanggal and Catatan -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="tx-date" class="block text-xs font-semibold text-neutral-400 mb-1 uppercase tracking-wider">Tanggal</label>
+                    <input type="date" id="tx-date" required 
+                      class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl py-3 px-4 text-sm text-neutral-100 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 cursor-pointer">
+                  </div>
+                  <div>
+                    <label for="tx-notes" class="block text-xs font-semibold text-neutral-400 mb-1 uppercase tracking-wider">Catatan</label>
+                    <input type="text" id="tx-notes" placeholder="Contoh: Makan siang" required
+                      class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl py-3 px-4 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 light:placeholder-neutral-400">
+                  </div>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-neutral-950 font-bold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10 cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Selesai Catat Transaksi</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- COLS 7: ANALISIS PENGELUARAN -->
+            <div class="lg:col-span-7 bg-neutral-900 border border-neutral-800 p-6 rounded-3xl flex flex-col justify-between light:bg-white light:border-neutral-200">
+              
+              <div>
+                <div class="flex items-center justify-between pb-2 border-b border-neutral-800/50 light:border-neutral-200 mb-4">
+                  <div class="flex items-center gap-2">
+                    <div class="p-1.5 rounded-lg bg-emerald-400/10 text-emerald-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                    </div>
+                    <h3 class="text-base font-bold text-white light:text-neutral-900">Analisis Cashflow & Kategori</h3>
+                  </div>
+                  <span class="text-[10px] bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 py-0.5 px-2 rounded-full font-bold">Realtime</span>
+                </div>
+
+                <!-- Insigh Box (Highlight Kategori Pengeluaran Terbesar) -->
+                <div id="insight-badge" class="bg-neutral-950/60 light:bg-neutral-50/80 border border-neutral-800 light:border-neutral-200 rounded-2xl p-4 flex items-center gap-3.5 mb-6">
+                  <div id="largest-category-icon-bg" class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 flex items-center justify-center text-2xl">
+                    <span id="largest-category-icon">💬</span>
+                  </div>
+                  <div>
+                    <span class="text-[10px] text-neutral-400 uppercase tracking-widest font-semibold block">Pengeluaran Terbesar Bulan Ini</span>
+                    <h4 id="largest-category-detail" class="text-sm font-extrabold text-neutral-100 light:text-neutral-800">
+                      Makanan (<span id="largest-category-percent">0%</span>) • <span id="largest-category-cost" class="font-mono-custom text-orange-400">Rp 0</span>
+                    </h4>
+                    <p id="largest-category-evaluation" class="text-xs text-neutral-400 mt-0.5">Katanya mau hemat sobat, kurangi sedikit jajan Makanan ya!</p>
+                  </div>
+                </div>
+
+                <!-- Graphic Output Block with ApexCharts -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Category Donut Card -->
+                  <div class="bg-neutral-950/40 border border-neutral-800/60 light:bg-neutral-50/50 light:border-neutral-200 rounded-2xl p-4 flex flex-col justify-center min-h-[220px]">
+                    <span class="text-xs font-semibold text-neutral-400 block mb-2 text-center">Proporsi Pengeluaran</span>
+                    <div id="chart-pie"></div>
+                    <div id="donut-empty-state" class="hidden text-center text-xs text-neutral-500 py-10">Belum ada pengeluaran</div>
+                  </div>
+
+                  <!-- Trend Column Card -->
+                  <div class="bg-neutral-950/40 border border-neutral-800/60 light:bg-neutral-50/50 light:border-neutral-200 rounded-2xl p-4 flex flex-col justify-center min-h-[220px]">
+                    <span class="text-xs font-semibold text-neutral-400 block mb-2 text-center">Trend Pengeluaran Harian</span>
+                    <div id="chart-area"></div>
+                    <div id="area-empty-state" class="hidden text-center text-xs text-neutral-500 py-10">Belum ada pengeluaran</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- RIWAYAT TRANSAKSI (List & Filter & Search) -->
+          <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 transition-all light:bg-white light:border-neutral-200">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-800/50 light:border-neutral-200 mb-6">
+              <div>
+                <h3 class="text-base font-bold text-white light:text-neutral-900">Riwayat Catatan Transaksi</h3>
+                <p class="text-xs text-neutral-400">Cari, sortir, atau saring transaksi yang telah kamu masukkan.</p>
+              </div>
+
+              <!-- Search and Filters bar -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full md:w-auto md:min-w-[500px]">
+                
+                <!-- Search Input with icon -->
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  </span>
+                  <input type="text" id="tx-search" placeholder="Cari catatan..." 
+                    class="w-full bg-neutral-950/50 border border-neutral-850 rounded-xl py-2 pl-9 pr-3 text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 light:placeholder-neutral-450">
+                </div>
+
+                <!-- Dropdown Category -->
+                <select id="tx-filter-category" 
+                  class="bg-neutral-950/50 border border-neutral-850 rounded-xl py-2 px-3 text-xs text-neutral-150 focus:outline-none focus:border-emerald-500 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 cursor-pointer">
+                  <option value="ALL">Semua Kategori</option>
+                  <option value="Makanan">🍛 Makanan</option>
+                  <option value="Transportasi">🚗 Transportasi</option>
+                  <option value="Belanja">🛍️ Belanja</option>
+                  <option value="Hiburan">🍿 Hiburan</option>
+                  <option value="Pendidikan">🎓 Pendidikan</option>
+                  <option value="Gym">🏋️ Gym</option>
+                  <option value="Lainnya">🏷️ Lainnya</option>
+                </select>
+
+                <!-- Sort Order -->
+                <select id="tx-sort" 
+                  class="bg-neutral-950/50 border border-neutral-850 rounded-xl py-2 px-3 text-xs text-neutral-150 focus:outline-none focus:border-emerald-500 transition-all light:bg-neutral-50 light:border-neutral-200 light:text-neutral-900 cursor-pointer">
+                  <option value="newest" selected>Terbaru</option>
+                  <option value="oldest">Terlama</option>
+                  <option value="highest-amount">Nominal Tertinggi</option>
+                  <option value="lowest-amount">Nominal Terendah</option>
+                </select>
+
+              </div>
+            </div>
+
+            <!-- Modern Table Layout -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-neutral-800/40 text-neutral-500 font-bold text-xs uppercase tracking-wider light:border-neutral-200">
+                    <th class="pb-3 pl-2">Aliran</th>
+                    <th class="pb-3">Kategori</th>
+                    <th class="pb-3">Tanggal</th>
+                    <th class="pb-3">Catatan</th>
+                    <th class="pb-3 text-right">Nominal</th>
+                    <th class="pb-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="transaction-list-body" class="divide-y divide-neutral-800/30 light:divide-neutral-100">
+                  <!-- Rows injected dynamic via Javascript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- EMPTY STATE INTERACTIVE VIEW (Initially hidden) -->
+            <div id="empty-state-container" class="hidden flex-col items-center justify-center py-14 px-4 text-center">
+              <div class="animate-float mb-4 p-4 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 max-w-fit">
+                <!-- Gorgeous Vector Folder/wallet vector SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12V8H4v12h16c1.1 0 2-.9 2-2V14c0-1.1-.9-2-2-2z"/><path d="M4 8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/><circle cx="17" cy="16" r="1.5"/></svg>
+              </div>
+              <h4 class="text-base font-bold text-neutral-200 light:text-neutral-700">Belum Ada Transaksi Tercatat!</h4>
+              <p class="text-xs text-neutral-500 max-w-sm mt-1 mx-auto">Dompetmu masih perawan nih, segera catat transaksi pertamamu menggunakan form "Catat Transaksi" di atas!</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+
+    <!-- LOGOUT CONFIRMATION MODAL -->
+    <div id="logout-confirmation-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-all duration-300">
+      <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 shadow-2xl w-full max-w-sm transform transition-all duration-300 scale-95 hover:border-neutral-700 light:bg-white light:border-neutral-200">
+        <div class="w-12 h-12 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-2xl flex items-center justify-center mb-4 text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white light:text-neutral-900 mb-2">Konfirmasi Keluar</h3>
+        <p class="text-xs text-neutral-400 mb-5 text-left">Apakah kamu yakin ingin keluar dari akun DompetKu? Tenang, data keuangan bulananmu akan tetap tersimpan aman di browser ini.</p>
+        
+        <div class="flex gap-2">
+          <button id="cancel-logout-btn" class="w-1/2 py-2.5 px-4 rounded-xl border border-neutral-800 text-xs font-bold text-neutral-400 hover:bg-neutral-800 transition-all light:border-neutral-200 light:hover:bg-neutral-100 cursor-pointer">
+            Tidak, Batal
+          </button>
+          <button id="confirm-logout-btn" class="w-1/2 py-2.5 px-4 rounded-xl bg-rose-500 hover:bg-rose-600 font-bold text-xs text-white transition-all cursor-pointer">
+            Ya, Keluar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELETE TRANSACTION CONFIRMATION MODAL -->
+    <div id="delete-confirmation-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-all duration-300">
+      <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 shadow-2xl w-full max-w-sm transform transition-all duration-300 scale-95 hover:border-neutral-700 light:bg-white light:border-neutral-200">
+        <div class="w-12 h-12 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-2xl flex items-center justify-center mb-4 text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white light:text-neutral-900 mb-2">Hapus Transaksi</h3>
+        <p class="text-xs text-neutral-400 mb-5 text-left">Apakah kamu yakin ingin menghapus catatan transaksi <span id="delete-tx-notes-display" class="font-bold text-emerald-400">""</span> ini?</p>
+        
+        <div class="flex gap-2">
+          <button id="cancel-delete-btn" class="w-1/2 py-2.5 px-4 rounded-xl border border-neutral-800 text-xs font-bold text-neutral-400 hover:bg-neutral-800 transition-all light:border-neutral-200 light:hover:bg-neutral-100 cursor-pointer">
+            Tidak, Batal
+          </button>
+          <button id="confirm-delete-btn" class="w-1/2 py-2.5 px-4 rounded-xl bg-rose-500 hover:bg-rose-600 font-bold text-xs text-white transition-all cursor-pointer">
+            Ya, Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN APP FOOTER -->
+    <footer class="border-t border-neutral-900 light:border-neutral-200 py-6 text-center text-xs text-neutral-500 bg-neutral-950 transition-all">
+      <p>© 2026 DompetKu — Dompet Keuangan Anak Muda & Mahasiswa. Crafted for Seminar Vibe Coding Demo.</p>
+    </footer>
+
+    <!-- Connect JS file -->
+    <script src="script.js"></script>
+  </body>
+</html>
